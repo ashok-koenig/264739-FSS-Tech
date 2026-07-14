@@ -1,7 +1,7 @@
 class Student {
     // Atrributes
-    String name;
-    int age;
+    private String name;
+    private int age;
     // Default constructor
     Student(){
         name = "Unknown";
@@ -14,7 +14,7 @@ class Student {
     }
 
     // Methods
-    void showDetails(){
+    public void showDetails(){
         System.out.println("Name: "+ name);
         System.out.println("Age: "+ age);
     }
