@@ -5,6 +5,9 @@ interface SimpleCalculator {
     default void welcome(){
         System.out.println("This is a default method in interface");
     }
+    static void test(){
+        System.out.println("This is a static method in interface");
+    }
 }
 public class InterfaceDemo implements SimpleCalculator{
 
@@ -29,5 +32,6 @@ public class InterfaceDemo implements SimpleCalculator{
         SimpleCalculator cal = new InterfaceDemo();
         System.out.println("100 + 20 : "+ cal.add(100,20));
         cal.welcome();
+        SimpleCalculator.test();
     }
 }
