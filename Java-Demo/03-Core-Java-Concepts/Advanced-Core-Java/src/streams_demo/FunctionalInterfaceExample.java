@@ -21,7 +21,7 @@ public class FunctionalInterfaceExample {
 //        demo.display();
         SimpleInterface demo = () -> System.out.println("Implementation of display method");
         demo.display();
-        
+
         MathOperation addition = (x, y) -> x + y;
         System.out.println("Sum: "+ addition.operate(10,20));
 
