@@ -19,6 +19,20 @@ class Car extends Vehicle{
         System.out.println(brand + " car started");
     }
 }
+
+// Interface
+interface GPS{
+    void navigate(String location);
+}
+
+class SmartCar extends Car implements GPS{
+    SmartCar(String brand){
+        super(brand);
+    }
+    public void navigate(String location) {
+        System.out.println(brand + " smart car navigate to "+ location);
+    }
+}
 class Bus extends Vehicle{
     Bus(String brand){
         super.brand = brand;
@@ -39,5 +53,10 @@ public class AbstractDemo {
         obj = new Bus("Volvo");
         obj.start();
         obj.stop();
+
+        SmartCar car = new SmartCar("Tesla");
+        car.start();
+        car.navigate("OMR");
+        car.stop();
     }
 }
