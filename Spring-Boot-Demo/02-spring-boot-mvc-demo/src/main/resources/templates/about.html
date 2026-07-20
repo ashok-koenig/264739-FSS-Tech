@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About Page</title>
+</head>
+<body>
+    <h1>About Page</h1>
+    <h2 th:text="'First Name: ' + ${first_name}"></h2>
+    <h2 th:text="'Last Name: ' + ${last_name}"></h2>
+    <h2 th:text="'Age: ' + ${age}"></h2>
+
+    <h3 th:if="${age > 18}">You are Adult</h3>
+    <h3 th:unless="${age > 18}">You are Child</h3>
+
+    <h2>Friends List</h2>
+    <ol>
+        <li th:each="friend : ${friends}" th:text="${friend}"></li>
+    </ol>
+</body>
+</html>
