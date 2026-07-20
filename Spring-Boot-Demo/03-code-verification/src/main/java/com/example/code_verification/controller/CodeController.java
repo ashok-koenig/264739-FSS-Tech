@@ -33,7 +33,7 @@ public class CodeController {
     }
 
     @RequestMapping("/validate-code")
-    public String validateCode(@RequestParam String code, Model model){
+    public String validateCode(@RequestParam(required = true) String code, Model model){
         boolean result = codeService.validate(code);
         model.addAttribute("result", result);
         return "validate-code";
