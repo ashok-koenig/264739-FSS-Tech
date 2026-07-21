@@ -12,8 +12,9 @@ public class Product {
     Long id;
     @NotEmpty(message = "Product name is required")
     String title;
-    @NotEmpty(message = "Product category is required")
-    String category;
+    //@NotEmpty(message = "Product category is required")
+    @Enumerated(EnumType.STRING)
+    Category category;
     @PositiveOrZero(message = "Product price is invalid")
     Double price;
 
@@ -38,11 +39,11 @@ public class Product {
         this.title = title;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
