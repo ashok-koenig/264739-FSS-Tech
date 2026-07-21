@@ -1,5 +1,6 @@
 package com.example.products_api.service;
 
+import com.example.products_api.exception.ProductNotFoundException;
 import com.example.products_api.model.Product;
 import com.example.products_api.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id){
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     public void deleteProductById(Long id){
