@@ -1,0 +1,33 @@
+SELECT 
+	COUNT(*) AS total_txns,
+    SUM(amount) AS total_amount,
+    AVG(amount) AS avg_amount,
+    MIN(amount) AS min_amount,
+    MAX(amount) AS max_amount
+FROM transactions WHERE status = 'SUCCESS';
+
+SELECT account_id, txn_type, COUNT(*) AS txn_count, SUM(amount) AS total_amount
+FROM transactions
+GROUP BY account_id, txn_type
+ORDER BY account_id;
+
+SELECT account_id, SUM(amount) AS total_withdrawn
+FROM transactions WHERE txn_type='WITHDRAWAL'
+GROUP BY account_id
+HAVING SUM(amount) > 1000;
+
+SELECT first_name, last_name
+FROM customers
+WHERE customer_id IN (
+	SELECT customer_id FROM accounts
+    WHERE balance > ( SELECT AVG(balance) FROM accounts )
+);
+
+SELECT b.branch_name, txn_summary.total_amount
+FROM branches b
+JOIN (
+	SELECT a.branch_id, SUM(t.amount) AS total_amount
+    FROM transactions t
+    JOIN accounts a ON t.account_id = a.account_id
+    GROUP BY a.branch_id
+) AS txn_summary ON b.branch_id = txn_summary.branch_id;

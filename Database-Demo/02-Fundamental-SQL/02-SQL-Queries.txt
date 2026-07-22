@@ -1,0 +1,9 @@
+SELECT * from accounts;
+
+SELECT account_id,account_type,balance from accounts;
+
+UPDATE accounts SET balance = balance + 15000 WHERE account_id=1;
+
+INSERT INTO accounts(customer_id, branch_id, account_type, balance) VALUES (3, 2, 'CURRENT', 0.00);
+
+DELETE FROM accounts WHERE account_id=4;

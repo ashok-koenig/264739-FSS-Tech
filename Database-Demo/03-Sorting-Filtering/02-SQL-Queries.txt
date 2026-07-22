@@ -1,0 +1,15 @@
+SELECT * from transactions WHERE amount > 5000;
+
+SELECT * from transactions WHERE txn_type = 'PAYMENT' AND status = 'FAILED';
+
+SELECT * from transactions WHERE description LIKE '%bill%';
+
+SELECT * from transactions WHERE description LIKE 'UPI%';
+
+SELECT transaction_id, amount, txn_date FROM transactions ORDER BY amount DESC;
+
+SELECT * FROM transactions ORDER BY txn_date DESC LIMIT 3 OFFSET 0;
+
+SELECT * FROM transactions ORDER BY txn_date DESC LIMIT 3 OFFSET 1;
+
+SELECT * FROM transactions ORDER BY txn_date DESC LIMIT 3 OFFSET 2;

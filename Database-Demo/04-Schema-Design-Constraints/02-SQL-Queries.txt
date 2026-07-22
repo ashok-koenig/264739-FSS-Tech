@@ -1,0 +1,15 @@
+-- INNER JOIN - customers with their accounts
+SELECT c.first_name, c.last_name, a.account_id, a.account_type, a.balance FROM customers c 
+INNER JOIN accounts a ON c.customer_id = a.customer_id;
+
+-- LEFT JOIN - All customers, even those without loans
+SELECT c.first_name, c.last_name, l.loan_type, l.principal_amount FROM customers c
+LEFT JOIN loans l ON c.customer_id = l.customer_id;
+
+-- RIGHT JOIN - Every branch and its assigned employees
+SELECT b.branch_name, e.first_name, e.role FROM employees e
+RIGHT JOIN branches b ON e.branch_id = b.branch_id;
+
+-- CROSS JOIN - Card type x branch promotion matrix
+SELECT b.branch_name, ct.card_type FROM branches b
+CROSS JOIN ( SELECT 'DEBIT' AS card_type UNION SELECT 'CREDIT') ct;
