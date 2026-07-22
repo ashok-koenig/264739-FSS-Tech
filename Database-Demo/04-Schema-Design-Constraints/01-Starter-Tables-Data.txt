@@ -1,0 +1,55 @@
+CREATE TABLE employees (
+  employee_id INT AUTO_INCREMENT PRIMARY KEY,
+  branch_id   INT NOT NULL,
+  first_name  VARCHAR(50) NOT NULL,
+  last_name   VARCHAR(50) NOT NULL,
+  role        VARCHAR(30) NOT NULL,
+  hire_date   DATE NOT NULL,
+  FOREIGN KEY (branch_id) REFERENCES branches(branch_id)
+);
+ 
+INSERT INTO employees (branch_id, first_name, last_name, role, hire_date) VALUES
+(1, 'Meera', 'Iyer', 'Branch Manager', '2019-04-01'),
+(1, 'Rohit', 'Kumar', 'Teller', '2022-06-15'),
+(2, 'Sara', 'Fernandes', 'Loan Officer', '2020-09-10');
+
+CREATE TABLE cards (
+  card_id            INT AUTO_INCREMENT PRIMARY KEY,
+  account_id         INT NOT NULL,
+  card_type          ENUM('DEBIT','CREDIT') NOT NULL,
+  card_number_masked VARCHAR(20) NOT NULL,
+  expiry_date        DATE NOT NULL,
+  status             VARCHAR(15) DEFAULT 'ACTIVE',
+  FOREIGN KEY (account_id) REFERENCES accounts(account_id)
+);
+ 
+INSERT INTO cards (account_id, card_type, card_number_masked, expiry_date) VALUES
+(1, 'DEBIT', '**** **** **** 4471', '2028-05-31'),
+(2, 'CREDIT', '**** **** **** 9902', '2027-11-30');
+
+CREATE TABLE loans (
+  loan_id         INT AUTO_INCREMENT PRIMARY KEY,
+  customer_id     INT NOT NULL,
+  loan_type       VARCHAR(30) NOT NULL,
+  principal_amount DECIMAL(12,2) NOT NULL,
+  interest_rate   DECIMAL(5,2) NOT NULL,
+  tenure_months   INT NOT NULL,
+  status          VARCHAR(15) DEFAULT 'ACTIVE',
+  FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+ 
+INSERT INTO loans (customer_id, loan_type, principal_amount, interest_rate, tenure_months) VALUES
+(1, 'PERSONAL', 300000.00, 11.50, 36);
+
+CREATE TABLE account_holders (
+  account_id  INT NOT NULL,
+  customer_id INT NOT NULL,
+  role        VARCHAR(10) NOT NULL DEFAULT 'PRIMARY',
+  PRIMARY KEY (account_id, customer_id),
+  FOREIGN KEY (account_id) REFERENCES accounts(account_id),
+  FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+ 
+INSERT INTO account_holders (account_id, customer_id, role) VALUES
+(2, 2, 'PRIMARY'),
+(2, 3, 'JOINT');

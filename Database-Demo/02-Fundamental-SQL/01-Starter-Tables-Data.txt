@@ -1,0 +1,48 @@
+CREATE DATABASE my_bank_db;
+USE my_bank_db;
+ 
+CREATE TABLE branches (
+  branch_id   INT AUTO_INCREMENT PRIMARY KEY,
+  branch_name VARCHAR(100) NOT NULL,
+  city        VARCHAR(50),
+  ifsc_code   VARCHAR(15)
+);
+ 
+CREATE TABLE customers (
+  customer_id   INT AUTO_INCREMENT PRIMARY KEY,
+  first_name    VARCHAR(50) NOT NULL,
+  last_name     VARCHAR(50) NOT NULL,
+  email         VARCHAR(100) UNIQUE,
+  phone         VARCHAR(15),
+  date_of_birth DATE,
+  kyc_status    VARCHAR(20) DEFAULT 'PENDING',
+  created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+ 
+INSERT INTO branches (branch_name, city, ifsc_code) VALUES
+('My Bank Anna Salai', 'Chennai', 'MYB0000101'),
+('My Bank MG Road', 'Bengaluru', 'MYB0000102'),
+('My Bank Connaught Place', 'New Delhi', 'MYB0000103');
+ 
+INSERT INTO customers (first_name, last_name, email, phone, date_of_birth, kyc_status) VALUES
+('Aarav', 'Sharma', 'aarav.sharma@example.com', '9840011122', '1990-05-14', 'VERIFIED'),
+('Isha', 'Reddy', 'isha.reddy@example.com', '9940022233', '1988-11-02', 'VERIFIED'),
+('Vikram', 'Nair', 'vikram.nair@example.com', '9790033344', '1995-07-23', 'PENDING');
+
+CREATE TABLE accounts (
+  account_id   INT AUTO_INCREMENT PRIMARY KEY,
+  customer_id  INT NOT NULL,
+  branch_id    INT NOT NULL,
+  account_type ENUM('SAVINGS','CURRENT') DEFAULT 'SAVINGS',
+  balance      DECIMAL(12,2) DEFAULT 0.00,
+  currency     CHAR(3) DEFAULT 'INR',
+  opened_date  DATE DEFAULT (CURRENT_DATE),
+  status       VARCHAR(15) DEFAULT 'ACTIVE',
+  FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+  FOREIGN KEY (branch_id) REFERENCES branches(branch_id)
+);
+
+INSERT INTO accounts (customer_id, branch_id, account_type, balance, opened_date) VALUES
+(1, 1, 'SAVINGS', 45000.00, '2024-01-10'),
+(2, 2, 'CURRENT', 128000.50, '2023-08-22'),
+(3, 1, 'SAVINGS', 8000.00, '2025-03-05');
