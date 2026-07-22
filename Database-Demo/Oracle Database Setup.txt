@@ -1,0 +1,11 @@
+Oracle Database 23ai Free runs as a docker container:
+
+docker pull gvenzl/oracle-free:23-slim
+docker run -d -p 1521:1521 -e ORACLE_PASSWORD=root --name demodb gvenzl/oracle-free:23-slim
+docker logs -f demodb
+
+SQL Developer from official website: https://www.oracle.com/database/sqldeveloper/
+
+Default Service Name: FREEPDB1
+Username: SYSTEM
+Password: root
