@@ -1,0 +1,9 @@
+EXPLAIN SELECT * FROM transactions WHERE account_id = 2 AND txn_type = 'PAYMENT';
+
+CREATE INDEX idx_txn_account_type ON transactions(account_id, txn_type);
+
+EXPLAIN SELECT * FROM transactions WHERE account_id = 2 AND txn_type = 'PAYMENT';
+
+CREATE INDEX idx_txn_date ON transactions(txn_date);
+
+EXPLAIN SELECT * FROM transactions ORDER BY txn_date DESC LIMIT 10;

@@ -1,0 +1,24 @@
+SHOW ENGINES;
+
+CREATE TABLE audit_log_myisam (
+log_id INT AUTO_INCREMENT PRIMARY KEY,
+message VARCHAR(200)
+) ENGINE = MyISAM;
+
+describe audit_log_myisam;
+
+START TRANSACTION;
+UPDATE accounts SET balance = balance - 500.00 WHERE account_id = 1;
+UPDATE accounts SET balance = balance + 500.00 WHERE account_id = 2;
+SELECT account_id, balance FROM accounts WHERE account_id IN (1,2);
+COMMIT;
+
+SELECT * FROM accounts;
+
+START TRANSACTION;
+
+UPDATE accounts SET balance = balance - 100000.00 WHERE account_id = 3;
+
+ROLLBACK;
+
+SELECT * from accounts WHERE account_id = 3;
