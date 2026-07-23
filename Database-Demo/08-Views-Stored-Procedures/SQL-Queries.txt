@@ -1,0 +1,40 @@
+-- View Sample
+
+CREATE VIEW vw_account_summary AS
+SELECT a.account_id, c.first_name, c. last_name, b.branch_name, a.account_type, a.balance
+FROM accounts a
+JOIN customers c ON a.customer_id = c.customer_id
+JOIN branches b ON a.branch_id = b.branch_id;
+
+
+SELECT * FROM vw_account_summary;
+
+SELECT * FROM vw_account_summary WHERE balance > 10000;
+
+-- Stored procedure demo
+DELIMITER $$
+CREATE PROCEDURE sp_tranfer_funds (
+	IN p_from_account INT,
+    IN p_to_account INT,
+    IN p_amount DECIMAL(12,2)
+)
+BEGIN
+	DECLARE current_balance DECIMAL(12,2);
+    START TRANSACTION;
+    SELECT balance INTO current_balance FROM accounts WHERE account_id = p_from_account FOR UPDATE;
+    IF current_balance >= p_amount THEN
+		UPDATE accounts SET balance = balance - p_amount WHERE account_id = p_from_account;
+        UPDATE accounts SET balance = balance + p_amount WHERE account_id = p_to_account;
+        INSERT INTO transactions(account_id, txn_type, amount, description)
+			VALUE(p_from_account, 'TRANSFER', p_amount, 'Funds transfer out');
+		INSERT INTO transactions(account_id, txn_type, amount, description)
+			VALUE(p_to_account, 'TRANSFER', p_amount, 'Funds transfer in');
+		COMMIT;
+	ELSE
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Insufficient funds for transfer';
+	END IF;
+END$$
+DELIMITER ;
+
+CALL sp_tranfer_funds(1, 2, 1500.00);
