@@ -27,6 +27,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    @Cacheable(value = "products", key = "#id")
     public Product getProductById(Long id){
         return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
     }
