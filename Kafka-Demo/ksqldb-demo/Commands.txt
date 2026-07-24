@@ -1,0 +1,16 @@
+docker compose up -d
+
+docker compose exec ksqldb-cli ksql http://ksqldb-server:8088
+
+CREATE STREAM orders_stream ( id INT, item VARCHAR, quantity INT, price DOUBLE)
+WITH (KAFKA_TOPIC='orders', VALUE_FORMAT='JSON', PARTITIONS=3);
+
+SELECT id, item, quantity, price FROM orders_stream EMIT CHANGES;
+
+ CREATE TABLE order_counts_by_item AS
+SELECT item, COUNT(*) AS order_count
+FROM orders_stream
+GROUP BY item
+EMIT CHANGES;
+
+SELECT * FROM order_counts_by_item;
